@@ -1,6 +1,9 @@
 public class Radix{
 
   public static int nth (int n, int col){
+    if (col > length(n) - 1){
+      return 0;
+    }
     int place = (int)Math.pow (10,col);
     int newnumber = n / place;
     return Math.abs(newnumber % 10);
@@ -13,45 +16,45 @@ public class Radix{
     return (int)Math.log10(Math.abs(n)) + 1;
   }
 
-  public static void merge (MyLinkedList original, MyLinkedList [] buckets){
-    for (MyLinkedList test : buckets){
+  public static void merge (SortableLinkedList original, SortableLinkedList [] buckets){
+    for (SortableLinkedList test : buckets){
       original.extend(test);
     }
   }
 
-  public static void main (String [] args){
-    /*
-    System.out.println(nth(123,1));
-    System.out.println(nth(-123,1));
-    System.out.println(nth(123,2));
-    System.out.println(nth(-123,2));
-    System.out.println(length(0));
-    System.out.println(length(15));
-    System.out.println(length(-10));
-    System.out.println(length(-100));
-    System.out.println(length(-1000));
-    System.out.println(length(-1));
-    System.out.println(length(5112));
-    */
-    MyLinkedList P1 = new MyLinkedList();
-    P1.add("1");
-    P1.add("2");
-    P1.add("3");
-    MyLinkedList Buckets0 = new MyLinkedList();
-    Buckets0.add("4");
-    Buckets0.add("5");
-    MyLinkedList Buckets1 = new MyLinkedList();
-    Buckets1.add("6");
-    Buckets1.add("7");
-    MyLinkedList Buckets2 = new MyLinkedList();
-    Buckets2.add("8");
-    Buckets2.add("9");
+  public static void radixSortSimple(SortableLinkedList data){
+    int LeastSignficantDigitPass = 0;
+    for (int i = 0; i < data.size(); i++){
+      if (LeastSignficantDigitPass < length(data.get(i)) ){
+        LeastSignficantDigitPass = length(data.get(i));
+      }
+    }
+    for (int j = 0; j < LeastSignficantDigitPass; j++){
+      SortableLinkedList NewVersion = new SortableLinkedList();
+      SortableLinkedList [] buckets = new SortableLinkedList [10];
+      for (int i = 0; i < 10; i++){
+        buckets[i] = new SortableLinkedList();
+      }
+      for (int k = 0; k < data.size(); k++){
+        int digit = nth ( data.get(k),j);
+        (buckets[digit]).add(data.get(k));
+      }
+      merge(NewVersion,buckets);
+      while (data.size() != 0){
+        data.remove(0);
+      }
+      data.extend(NewVersion);
+    }
+  }
 
-    MyLinkedList [] BucketTest = new MyLinkedList [3];
-    BucketTest[0] = Buckets0;
-    BucketTest[1] = Buckets1;
-    BucketTest[2] = Buckets2;
-    merge(P1,BucketTest);
-    System.out.println(P1);
+  public static void main (String [] args){
+    SortableLinkedList test = new SortableLinkedList();
+    test.add(3469);
+    test.add(323);
+    test.add(6742);
+    test.add(3437);
+    test.add(8541);
+    radixSortSimple(test);
+    System.out.println(test);
   }
 }
