@@ -22,6 +22,7 @@ public class Radix{
     }
   }
 
+/*
   public static void radixSortSimple(SortableLinkedList data){
     int LeastSignficantDigitPass = 0;
     for (int i = 0; i < data.size(); i++){
@@ -44,6 +45,35 @@ public class Radix{
         data.remove(0);
       }
       data.extend(NewVersion);
+    }
+  }
+  */
+
+  public static void radixSortSimple(SortableLinkedList data){
+    int LeastSignficantDigitPass = 0;
+    SortableLinkedList [] buckets = new SortableLinkedList [10];
+    for (int i = 0; i < 10; i++){
+      buckets[i] = new SortableLinkedList();
+    }
+    while (data.size() != 0){
+      int NumberToBeSorted = data.remove(0);
+      if (LeastSignficantDigitPass < length(NumberToBeSorted) ){
+        LeastSignficantDigitPass = length (NumberToBeSorted);
+      }
+      int digit = nth (NumberToBeSorted,0);
+      (buckets[digit]).add(NumberToBeSorted);
+    }
+    merge(data,buckets);
+    System.out.println(LeastSignficantDigitPass);
+    System.out.println(data.toString() );
+    for (int DigitPlace = 1; DigitPlace < LeastSignficantDigitPass; DigitPlace++){
+      while (data.size() != 0){
+        int NumberToBeSorted = data.remove(0);
+        int digit = nth (NumberToBeSorted,DigitPlace);
+        (buckets[digit]).add(NumberToBeSorted);
+      }
+      merge(data,buckets);
+      System.out.println(data.toString() );
     }
   }
 
