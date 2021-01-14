@@ -64,8 +64,6 @@ public class Radix{
       (buckets[digit]).add(NumberToBeSorted);
     }
     merge(data,buckets);
-    System.out.println(LeastSignficantDigitPass);
-    System.out.println(data.toString() );
     for (int DigitPlace = 1; DigitPlace < LeastSignficantDigitPass; DigitPlace++){
       while (data.size() != 0){
         int NumberToBeSorted = data.remove(0);
@@ -73,7 +71,6 @@ public class Radix{
         (buckets[digit]).add(NumberToBeSorted);
       }
       merge(data,buckets);
-      System.out.println(data.toString() );
     }
   }
 
